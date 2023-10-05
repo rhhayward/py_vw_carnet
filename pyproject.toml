@@ -17,6 +17,7 @@ classifiers = ["License :: OSI Approved :: MIT License"]
 dependencies = [
     "bs4",
     "json5",
+    "lxml",
     "pkce >= 1.0.3",
     "requests",
     "uuid",
