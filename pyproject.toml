@@ -1,0 +1,11 @@
+[build-system]
+requires = [
+    "bs4",
+    "json5",
+    "pkce >= 1.0.3",
+    "requests",
+    "setuptools>=42",
+    "uuid",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
