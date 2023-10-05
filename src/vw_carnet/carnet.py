@@ -143,7 +143,7 @@ class CarNet:
 
         passR = self.session.post(passURL, allow_redirects=False, params=params)
         while authCode is False:
-            if passR.status_code == 302:
+            if passR.status_code == 302 or passR.status_code == 303:
                 passURL = passR.headers['location']
                 if passURL.startswith('car-net:/'):
                     authCode = self.getAuthCode(passURL)
