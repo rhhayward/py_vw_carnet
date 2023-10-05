@@ -65,25 +65,21 @@ class CarNet:
             return False
 
     def getCarStatus(self):
-        if self.isExpired(self.carStatus) is False:
-            return self.carStatus
+        if self.isExpired(self.carStatus) is True:
+            self.carStatus = {}
+            acctStatus = self.getAcctStatus()
+            for vehicle in acctStatus['data']['vehicleEnrollmentStatus']:
+                vehicleId = vehicle['vehicleId']
 
-        oldCarStatus = self.carStatus
-        self.carStatus = {}
+                tokens = self.getTokens()
+                carStatURL = '{}/rvs/v1/vehicle/{}'.format(VW_BASE_URL, vehicleId)
+                carStatR = self.session.get(carStatURL,
+                    params={'idToken':tokens['id_token']},
+                    headers={'Authorization': 'Bearer {}'.format(tokens['access_token'])}
+                )
+                self.carStatus[vehicleId] = carStatR.json()
+            self.carStatus['expiration_date'] = time.time() + CAR_STATUS_EXP_SECONDS
 
-        acctStatus = self.getAcctStatus()
-        for vehicle in acctStatus['data']['vehicleEnrollmentStatus']:
-            vehicleId = vehicle['vehicleId']
-
-            tokens = self.getTokens()
-            carStatURL = '{}/rvs/v1/vehicle/{}'.format(VW_BASE_URL, vehicleId)
-            carStatR = self.session.get(carStatURL,
-                params={'idToken':tokens['id_token']},
-                headers={'Authorization': 'Bearer {}'.format(tokens['access_token'])}
-            )
-            self.carStatus[vehicleId] = carStatR.json()
-
-        self.carStatus['expiration_date'] = time.time() + CAR_STATUS_EXP_SECONDS
         return { k:self.carStatus[k] for k in self.carStatus.keys() if k != 'expiration_date' }
 
 
