@@ -1,11 +1,23 @@
 [build-system]
 requires = [
+    "setuptools>=42",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py_vw_carnet"
+version = "0.0.1"
+authors = [
+    { name = "Ryan Hayward", email = "rhhayward@att.net"}
+]
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = ["License :: OSI Approved :: MIT License"]
+dependencies = [
     "bs4",
     "json5",
     "pkce >= 1.0.3",
     "requests",
-    "setuptools>=42",
     "uuid",
-    "wheel",
 ]
-build-backend = "setuptools.build_meta"
