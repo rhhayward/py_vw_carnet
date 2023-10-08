@@ -59,7 +59,7 @@ class CarNet:
 
 
     def isExpired(self, d):
-        if d is None or time.time() > d['expiration_date']:
+        if d is None or 'expiration_date' not in d or time.time() > d['expiration_date']:
             return True
         else:
             return False
